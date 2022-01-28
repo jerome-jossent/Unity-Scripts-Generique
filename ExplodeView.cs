@@ -6,7 +6,8 @@ using System;
 public class ExplodeView : MonoBehaviour
 {    
     #region Variables
-    public List<SubMeshes> childMeshRenderers;
+    public List<SubMeshes> childSubMeshes;
+    public List<MeshRenderer> childMeshRenderers;
     public bool isInExplodedView = false;
     public float explosionSpeed = 0.1f;
     bool isMoving = false;
@@ -15,14 +16,16 @@ public class ExplodeView : MonoBehaviour
     #region UnityFunctions
     private void Awake()
     {
-        childMeshRenderers = new List<SubMeshes>();
+        childSubMeshes = new List<SubMeshes>();
+        childMeshRenderers = new List<MeshRenderer>();
         foreach (var item in GetComponentsInChildren<MeshRenderer>())
         {
             SubMeshes mesh = new SubMeshes();
             mesh.meshRenderer = item;
             mesh.originalPosition = item.transform.position;
             mesh.explodedPosition = item.bounds.center * 1.5f;
-            childMeshRenderers.Add(mesh);
+            childSubMeshes.Add(mesh);
+            childMeshRenderers.Add(item);
         }
     }
 
@@ -32,7 +35,7 @@ public class ExplodeView : MonoBehaviour
         {
             if (isInExplodedView)
             {
-                foreach (SubMeshes item in childMeshRenderers)
+                foreach (SubMeshes item in childSubMeshes)
                 {
                     item.meshRenderer.transform.position = Vector3.Lerp(item.meshRenderer.transform.position, item.explodedPosition, explosionSpeed);
                     if (Vector3.Distance(item.meshRenderer.transform.position, item.explodedPosition) < 0.001f)                    
@@ -41,7 +44,7 @@ public class ExplodeView : MonoBehaviour
             }
             else
             {
-                foreach (SubMeshes item in childMeshRenderers)
+                foreach (SubMeshes item in childSubMeshes)
                 {
                     item.meshRenderer.transform.position = Vector3.Lerp(item.meshRenderer.transform.position, item.originalPosition, explosionSpeed);
                     if (Vector3.Distance(item.meshRenderer.transform.position, item.originalPosition) < 0.001f)
@@ -54,10 +57,8 @@ public class ExplodeView : MonoBehaviour
 
     public void _SetexplodedPosition(float val)
     {
-        foreach (SubMeshes item in childMeshRenderers)
-        {
-            item.explodedPosition = item.bounds.center * val * 100;
-        }
+        for (int i = 0; i < childMeshRenderers.Count; i++)        
+            childSubMeshes[i].explodedPosition = childMeshRenderers[i].bounds.center * val * 100;        
     }
 
 
