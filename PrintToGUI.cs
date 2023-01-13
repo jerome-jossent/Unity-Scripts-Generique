@@ -31,6 +31,17 @@ using UnityEngine;
 /// </summary>
 public class PrintToGUI : MonoBehaviour
 {
+    static PrintToGUI _singleton;
+
+    public static void __DisplayText(string texte,
+                             Color? couleurRGB = null,
+                             float duree_avant_fade_sec = 0,
+                             float duree_fade_sec = 0,
+                             int fontsize = 0)
+    {
+        _singleton._DisplayText(texte, couleurRGB, duree_avant_fade_sec, duree_fade_sec, fontsize);
+    }
+
     #region PARAMETRES
     [SerializeField] KeyCode ToucheDisplayGUI;
     [SerializeField] string helloMessage;
@@ -42,10 +53,10 @@ public class PrintToGUI : MonoBehaviour
 
     #region VARIABLES INTERNES
     bool displayGUI;
-    Dictionary<int, Message> messages;
-    Dictionary<string, int> clefs;
-    int compteur;
-    List<int> indexToRemove;
+    Dictionary<int, Message> messages = new Dictionary<int, Message>();
+    Dictionary<string, int> clefs = new Dictionary<string, int>();
+    int compteur = 0;
+    List<int> indexToRemove = new List<int>();
     #endregion
     
     /// <summary>
@@ -128,10 +139,8 @@ public class PrintToGUI : MonoBehaviour
     //initialisation et affichage des messages
     private void Awake()
     {
-        messages = new Dictionary<int, Message>();
-        clefs = new Dictionary<string, int>();
-        compteur = 0;
-        indexToRemove = new List<int>();
+        if (_singleton == null)
+            _singleton = this;
 
         displayGUI = true;
 
@@ -181,7 +190,7 @@ public class PrintToGUI : MonoBehaviour
         float alpha;
         float alphaDecreaseStep;
         Color couleur;
-        public GUIStyle style = new GUIStyle(UnityEditor.EditorStyles.label);
+        public GUIStyle style = new GUIStyle();// UnityEditor.EditorStyles.label);
 
         float time;
         float time_display;
