@@ -31,6 +31,7 @@ using UnityEngine;
 /// </summary>
 public class PrintToGUI : MonoBehaviour
 {
+    #region Static & Singleton
     static PrintToGUI _singleton;
 
     public static void __DisplayText(string texte,
@@ -41,6 +42,13 @@ public class PrintToGUI : MonoBehaviour
     {
         _singleton._DisplayText(texte, couleurRGB, duree_avant_fade_sec, duree_fade_sec, fontsize);
     }
+
+    internal static void __ClearScreen()
+    {
+        _singleton.messages.Clear();
+        _singleton.indexToRemove.Clear();
+    }
+    #endregion
 
     #region PARAMETRES
     [SerializeField] KeyCode ToucheDisplayGUI;
