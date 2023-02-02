@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class _NotesInInspector : MonoBehaviour
 {
-    [TextArea(3, 20)]
+    public string TitreAuteurDate = "";
+    [TextArea(1, 20)]
     public string Notes = "";
+
 }
