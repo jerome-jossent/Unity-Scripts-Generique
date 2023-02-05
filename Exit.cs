@@ -25,10 +25,10 @@ public class Exit : MonoBehaviour {
 #endif
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-#elif (UNITY_STANDALONE) 
-    Application.Quit();
 #elif (UNITY_WEBGL)
     Application.OpenURL("about:blank");
+#else
+    Application.Quit();
 #endif
     }
 }
