@@ -26,7 +26,7 @@ public class Triangle_3D : MonoBehaviour
         if (collider == null) collider = gameObject.GetComponent<MeshCollider>();
         if (collider == null) collider = gameObject.AddComponent<MeshCollider>();
 
-        if (material == null) material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Material.mat");
+        //if (material == null) material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Material.mat");
 
         var mesh = CreateTriangle3DMesh(angle_deg);
 
@@ -81,10 +81,13 @@ public class Triangle_3D : MonoBehaviour
         mesh.vertices = vertices;
         mesh.uv = uv;
         mesh.triangles = triangles;
-        Unwrapping.GenerateSecondaryUVSet(mesh);
-        mesh.RecalculateBounds();
-        mesh.RecalculateNormals();
-        mesh.RecalculateTangents();
+
+        mesh.Optimize();
+
+        //Unwrapping.GenerateSecondaryUVSet(mesh);
+        //mesh.RecalculateBounds();
+        //mesh.RecalculateNormals();
+        //mesh.RecalculateTangents();
         return mesh;
     }
 }
