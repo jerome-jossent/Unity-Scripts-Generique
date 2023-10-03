@@ -6,6 +6,7 @@ public class StateOfGameObjectAtStart : MonoBehaviour
 {
     [SerializeField] GameObject[] EnableAtStart;
     [SerializeField] GameObject[] DisableAtStart;
+    [SerializeField] GameObject[] DeleteAtStart;
     void Start()
     {
         foreach (GameObject item in EnableAtStart)
@@ -13,6 +14,10 @@ public class StateOfGameObjectAtStart : MonoBehaviour
 
         foreach (GameObject item in DisableAtStart)
             item?.SetActive(false);
+
+        foreach (GameObject item in DeleteAtStart)
+            if(item != null)
+                DestroyImmediate(item);
     }
 
 }
